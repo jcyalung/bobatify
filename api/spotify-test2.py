@@ -1,20 +1,24 @@
 import spotipy
-import sys
-import pprint
 from env import set_vars
 from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 import json
-
 set_vars()
 scope = "user-library-read"
 
+# to get current user
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+user = sp.current_user()
 
+print(json.dumps(user, indent=4))
+
+"""
+set_vars()
+scope = "user-library-read"
 client_credentials_manager = SpotifyClientCredentials()
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-sp.trace = True
-user = sp.user(username)
-
+sp = spotipy.Spotify()
+sp = spotipy.Spotify()
+user = sp.current_user()
+print(json.dumps(user, indent=4))
 playlists = sp.user_playlists(username)
 for playlist in playlists['items']:
     for key, value in playlist.items():
@@ -25,3 +29,4 @@ for playlist in playlists['items']:
 for item in results['tracks']['items']:
     track = item['track']
     print(track['name'] + ' - ' + track['artists'][0]['name'])
+"""
