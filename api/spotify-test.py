@@ -1,10 +1,5 @@
 import requests
 
-data = {
-    'grant_type': 'client_credentials',
-    'client_id': '877eb340cd264117a613e01137ca22ff',
-    'client_secret': '0ac304c0ec574e1782385081f3ac2645',
-}
 
 response = requests.post('https://accounts.spotify.com/api/token', data=data)
 print(response.json())
