@@ -12,7 +12,7 @@ function App() {
   const BASE_URL = 'http://localhost:8000/';
 
   const getUser = async () => {
-    const response = await fetch(BASE_URL + 'current-user');
+    const response = await fetch(BASE_URL + 'current-user', {redirect: 'follow'});
     const data = await response.json();
     console.log(data);
     setAccount(data);
@@ -44,7 +44,7 @@ function App() {
         
         {account.display_name == null ?
           null
-         : playlists.length == 0 ? 
+         : playlists.length === 0 ? 
               <button id="get-button" className="playlist-btn" onClick={async () => {getUserPlaylists(); console.log('get playlists');}}>Get Playlists <img src={BobaIcon} alt="boba"/> </button>
               : 
               null

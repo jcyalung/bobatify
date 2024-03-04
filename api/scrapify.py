@@ -5,29 +5,30 @@
 # It uses the json library to parse the data from the Spotify API
 # It uses the pprint library to print the data in a readable format
 import spotipy
+from spotipy.util import prompt_for_user_token
 from env import set_vars
 from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 
 # set environment variables
 set_vars()
+scope = "user-library-read " 
+scope += "playlist-read-private "
+
 
 def get_current_user():
     # get current user
-    scope = "user-library-read"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     user = sp.current_user()
     return user
 
 def get_user_playlists():
     # get user playlists
-    scope = "playlist-read-private"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     playlists = sp.current_user_playlists()
     return playlists
 
 def get_playlist_tracks(playlist_id):
     # get playlist tracks
-    scope = "user-library-read"
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     tracks = sp.playlist_tracks(playlist_id)
     return tracks
