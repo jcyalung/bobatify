@@ -13,6 +13,7 @@ function App() {
   const [playlists, setPlaylists] = useState([]);
   const [account, setAccount] = useState({});
   const BASE_URL = 'http://localhost:8000/';
+  const [playlistID, setPlaylistID] = useState('');
 
   const getUser = async () => {
     const response = await fetch(BASE_URL + 'current-user', {redirect: 'follow'});
@@ -59,13 +60,16 @@ function App() {
         <h1>
           Boba Recommender!
         </h1>
+        {/* display user's account */}
         {
         account ? 
           <SpotifyAccount account={account} />
           : null
         }
+        {/* login button for spotify */}
         {account.display_name == null ? <button id="login-button" className="big-btn" onClick={async () => {setAccount(await getUser());}}> Log in with Spotify </button> : null}
         
+        {/* get playlists button */}
         {account.display_name == null ?
           null
          : playlists.length === 0 ? 
@@ -73,10 +77,12 @@ function App() {
               : 
               null
         }
+        {/* playlists header */}
         { playlists?.length > 0 ? <div className="playlist-header">
           <h2>Here are your playlists:</h2>
           <p>Click on the pearls to get a drink recommendation for the playlist!</p>
           </div> : null}
+        {/* display playlists */}
         { playlists?.length > 0 ? 
           (<div className="playlist-container">
               {playlists.map((movie) => (
@@ -84,8 +90,8 @@ function App() {
                     ))}
           </div>)
           : <div></div>
-          }
-        
+        }
+        <div className='recommendation'></div>
       </header>
     </div>
   );
