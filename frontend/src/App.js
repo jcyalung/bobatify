@@ -12,7 +12,7 @@ function App() {
   const BASE_URL = 'http://localhost:8000/';
 
   const getUser = async () => {
-    const response = await fetch(BASE_URL + 'current-user/');
+    const response = await fetch(BASE_URL + 'current-user');
     const data = await response.json();
     console.log(data);
     setAccount(data);
@@ -20,9 +20,13 @@ function App() {
   }
 
   const getUserPlaylists = async () => {
-    const response = await fetch(BASE_URL + 'playlists/');
+    const response = await fetch(BASE_URL + 'playlists');
     const data = await response.json();
     setPlaylists(data["playlists"]);
+  }
+  
+  const bobaRecommendation = async (playlist) => { 
+    console.log(playlist.name);
   }
 
   return (
@@ -36,12 +40,14 @@ function App() {
           <SpotifyAccount account={account} />
           : null
         }
-        <button id="login-button" className="big-btn" onClick={async () => {setAccount(await getUser());}}> Log in with Spotify </button>
-        <br></br>
-        {
-        account.display_name == null ? 
+        {account.display_name == null ? <button id="login-button" className="big-btn" onClick={async () => {setAccount(await getUser());}}> Log in with Spotify </button> : null}
+        
+        {account.display_name == null ?
           null
-         : <button id="get-button" className="playlist-btn" onClick={async () => {getUserPlaylists(); console.log('get playlists');}}>Get Playlists <img src={BobaIcon} alt="boba"/> </button>
+         : playlists.length == 0 ? 
+              <button id="get-button" className="playlist-btn" onClick={async () => {getUserPlaylists(); console.log('get playlists');}}>Get Playlists <img src={BobaIcon} alt="boba"/> </button>
+              : 
+              null
         }
         { playlists?.length > 0 ? <div className="playlist-header">
           <h1>Here are your playlists:</h1>
@@ -50,7 +56,7 @@ function App() {
         { playlists?.length > 0 ? 
           (<div className="playlist-container">
               {playlists.map((movie) => (
-                        <Playlist playlist={movie}/>
+                        <Playlist playlist={movie} onClick={async (playlist) => bobaRecommendation(playlist)}/>
                     ))}
           </div>)
           : <div></div>
