@@ -4,7 +4,22 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import BobaIcon from './boba.svg';
 import SpotifyAccount from './SpotifyAccount';
-import Playlist from './Playlist';
+//import Playlist from './Playlist';
+
+const Playlist = ({playlist}) => {
+  return(
+      <div className='playlist'>
+          <div>
+              <p>{playlist.name}</p>
+          </div>
+          <div>
+              <img src={playlist.image} alt='playlist'/>
+          </div>
+          <div>
+            <button href={() => console.log('clicked')}>get recommendation!</button>
+          </div>
+      </div>)
+}
 
 function App() {
   const [playlists, setPlaylists] = useState([]);

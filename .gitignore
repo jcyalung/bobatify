@@ -162,3 +162,4 @@ cython_debug/
 secret.json
 .env
 env.py
+.DS_Store

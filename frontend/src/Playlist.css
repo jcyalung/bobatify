@@ -123,11 +123,12 @@
   
   .playlist div:nth-of-type(3) {
     z-index: 2;
-    background-color: #343739;
+    background-color: transparent;
     position: absolute;
     bottom: 0;
     right: 0;
     left: 0;
+    opacity: 0;
   }
   
   .playlist div:nth-of-type(3) span {
@@ -153,6 +154,7 @@
   
   .playlist:hover div:nth-of-type(3) {
     background-color: transparent;
+    opacity: 1;
   }
   
   .playlist:hover div:nth-of-type(1) {
