@@ -32,17 +32,15 @@ def get_playlist_tracks(playlist_id):
     tracks = sp.playlist_tracks(playlist_id)
     list_tracks = []
     for track in tracks['items']:
-        list_tracks.append({'name':track['track']['name'], 'artist(s)':[artist['name'] for artist in track['track']['artists']]})
+        list_tracks.append({'name':track['track']['name'], 'artist(s)':[{'name':artist['name'], 'id':artist['id']} for artist in track['track']['artists']], 'id':track['track']['id']})
     return list_tracks
 
 # get artists in playlist
 def get_artists(playlist_id):
     tracks = get_playlist_tracks(playlist_id)
-    artists = {}
-    for track in tracks['items']:
-        for artist in track['track']['artists']:
-            if artist['name'] in artists:
-                artists[artist['name']] += 1
-            else:
-                artists[artist['name']] = 1
-    return {'artists':list(artists.keys())}
+    artists = []
+    for track in tracks:
+        for artist in track['artist(s)']:
+            if artist not in artists:
+                artists.append(artist)
+    return {'artists':artists}

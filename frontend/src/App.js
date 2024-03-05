@@ -1,10 +1,15 @@
-import './App.css';
-import './Playlist.css';
+import './styles/App.css';
+import './styles/Playlist.css';
+import './styles/Tracklist.css';
+import './styles/ArtistList.css';
+import './styles/Recommendation.css';
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BobaIcon from './boba.svg';
 import SpotifyAccount from './SpotifyAccount';
 import Pearls from './pearls.svg';
+import Tracklist from './Tracklist';
+import ArtistList from './ArtlistList';
 //import Playlist from './Playlist';
 
 
@@ -12,8 +17,13 @@ import Pearls from './pearls.svg';
 function App() {
   const [playlists, setPlaylists] = useState([]);
   const [account, setAccount] = useState({});
-  const BASE_URL = 'http://localhost:8000/';
+  const [playlist, setPlaylist] = useState({});
+  const [playlistName, setPlaylistName] = useState('');
+  const [artists, setArtists] = useState([]);
+  const [recommendation, setRecommendation] = useState({});
 
+  const BASE_URL = 'http://localhost:8000/';
+  const PLAYLIST_URL = 'https://open.spotify.com/playlist/';
   const getUser = async () => {
     const response = await fetch(BASE_URL + 'current-user', {redirect: 'follow'});
     const data = await response.json();
@@ -28,10 +38,24 @@ function App() {
     setPlaylists(data["playlists"]);
   }
 
-  const getPlaylistTracks = async (id) => {
+  const getArtists = async (id) => {
+    const response = await fetch(BASE_URL + 'artists/' + id);
+    const data = await response.json();
+    setArtists(data["artists"]);
+  }
+
+  const getPlaylist = async (id, name) => {
     const response = await fetch(BASE_URL + 'playlist-tracks/' + id);
     const data = await response.json();
-    console.log(data);
+    setPlaylist(data);
+    setPlaylistName(name);
+    getArtists(id);
+  }
+  
+  const getRecommendation = async (id) => {
+    const response = await fetch(BASE_URL + 'recommendation/' + id);
+    const data = await response.json();
+    setRecommendation(data);
   }
 
   const Playlist = ({playlist}) => {
@@ -44,7 +68,7 @@ function App() {
                 <img src={playlist.image} alt='playlist'/>
             </div>
             <div>
-              <button onClick={() => getPlaylistTracks(playlist.id)}><img src={Pearls} alt='get recommendation!'></img></button>
+              <button onClick={() => {getPlaylist(playlist.id, playlist.name); getRecommendation(playlist.id); }}><img src={Pearls} alt='get recommendation!'></img></button>
             </div>
         </div>)
   }
@@ -81,12 +105,43 @@ function App() {
         { playlists?.length > 0 ? 
           (<div className="playlist-container">
               {playlists.map((movie) => (
-                        <Playlist playlist={movie} onClick={async (playlist) => getPlaylistTracks(playlist)}/>
+                        <Playlist playlist={movie}/>
                     ))}
           </div>)
           : <div></div>
         }
-        <div className='recommendation'></div>
+        {/* recommendations go here */}
+        {
+          playlist.tracks ?
+          <div className='recommendation'>
+            <div className='recommendation-header'>
+              <h3>From your playlist<a href={PLAYLIST_URL + playlist.id} target='_blank' rel='noreferrer'> {playlistName}</a>...</h3>
+                <div className='tracklist'>
+                  <div className='tracklist-header'>
+                    <p>From these tracks:</p>
+                  </div>
+                    <Tracklist playlist={playlist}/>
+                </div>
+                <div className='artist-list'>
+                  <div className='artist-header'>
+                    <p>And these artists...</p>
+                  </div>
+                    <ArtistList artists={artists}/>
+                </div>
+              <div className='boba-wizard'>
+              <h4>
+                Boba Wizard says:
+              </h4>
+              <p>"{recommendation.content}"</p>
+              <div className='boba-wizard-thank-you'></div>
+              <p>Enjoy your drink! - Boba Wizard</p>
+              </div>
+            </div>
+          </div>
+          :
+          <div></div>
+        }
+        
       </header>
     </div>
   );

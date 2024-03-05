@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import scrapify
 import json
+import boba
 app = FastAPI()
 user = ''
 user_id = ''
@@ -44,7 +45,12 @@ def playlist_tracks(playlist_id):
 def artists(playlist_id):
     artists = scrapify.get_artists(playlist_id)
     return artists
-    
+
+@app.get("/recommendation/{playlist_id}")
+def recommendation(playlist_id):
+    artists_list = artists(playlist_id)
+    rec= boba.get_boba_recommendation(artists_list)
+    return rec
 
 if __name__ == "__main__":
     uvicorn.run("server:app", port=8000, reload=True)

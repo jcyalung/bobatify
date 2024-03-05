@@ -1,0 +1,77 @@
+.artist-list nav ul{
+    height:200px; 
+    width:100%;
+    overflow:hidden;
+    overflow-y:scroll;
+  }
+  
+  .artist-list {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 16px;
+    position: relative;
+    display:inline-block;
+  }
+  
+  .artist-header p {
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+  }
+  
+  .artist-list li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    color: #ceb195;
+    position: relative;
+    left: 0;
+    color: #ceb195;
+    list-style: none;
+    border-left: 2px solid #000000;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  
+  .artist-list ul {
+    position: relative;
+  }
+  
+  .artist-list ul li span {
+    position: relative;
+    padding-left: 12px;
+    display: inline-block;
+    z-index: 1;
+    transition: 0.5s;
+  }
+  .artist-list ul li:hover span {
+    color: #ffffff;
+  }
+  
+  .artist-list ul li:hover {
+    left: 10px;
+  }
+  
+  .artist-list ul li:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: 0.5s;
+  }
+  
+  .artist-list ul li:hover:before {
+    transform: scaleX(1);
+  }
+  
+  .artist-list ul {
+    background-color: #151515;
+  }
