@@ -8,7 +8,12 @@ def get_boba_recommendation(artists):
     artists_str = ''
     for artist in artists['artists']:
         arr.append(artist['name'])
-    
+    if arr == [] or '' in arr or None in arr:
+        return {"content": "It seems that this playlist either: "
+                            "(1) Doesn't have any songs, "
+                            "(2) The artists are not recognized, or"
+                            "(3) The playlist contains local files that cannot be recognized by Spotify."
+                            " Please try again with a different playlist."}
     for artist in arr:
         if artist == arr[-1]:
             artists_str += artist

@@ -10,7 +10,7 @@ import SpotifyAccount from './SpotifyAccount';
 import Pearls from './pearls.svg';
 import Tracklist from './Tracklist';
 import ArtistList from './ArtlistList';
-//import Playlist from './Playlist';
+
 
 
 
@@ -19,13 +19,14 @@ function App() {
   const [account, setAccount] = useState({});
   const [playlist, setPlaylist] = useState({});
   const [playlistName, setPlaylistName] = useState('');
+  const [playlistID, setPlaylistID] = useState('');
   const [artists, setArtists] = useState([]);
   const [recommendation, setRecommendation] = useState({});
 
   const BASE_URL = 'http://localhost:8000/';
   const PLAYLIST_URL = 'https://open.spotify.com/playlist/';
   const getUser = async () => {
-    const response = await fetch(BASE_URL + 'current-user', {redirect: 'follow'});
+    const response = await fetch(BASE_URL + 'current-user ', {redirect: 'follow'});
     const data = await response.json();
     console.log(data);
     setAccount(data);
@@ -50,6 +51,7 @@ function App() {
     setPlaylist(data);
     setPlaylistName(name);
     getArtists(id);
+    console.log(playlist);
   }
   
   const getRecommendation = async (id) => {
@@ -68,7 +70,7 @@ function App() {
                 <img src={playlist.image} alt='playlist'/>
             </div>
             <div>
-              <button onClick={() => {getPlaylist(playlist.id, playlist.name); getRecommendation(playlist.id); }}><img src={Pearls} alt='get recommendation!'></img></button>
+              <button onClick={() => {getPlaylist(playlist.id, playlist.name); getRecommendation(playlist.id); setPlaylistID(playlist.id)}}><img src={Pearls} alt='get recommendation!'></img></button>
             </div>
         </div>)
   }
@@ -115,7 +117,7 @@ function App() {
           playlist.tracks ?
           <div className='recommendation'>
             <div className='recommendation-header'>
-              <h3>From your playlist<a href={PLAYLIST_URL + playlist.id} target='_blank' rel='noreferrer'> {playlistName}</a>...</h3>
+              <h3>From your playlist<a href={PLAYLIST_URL + playlistID} target='_blank' rel='noreferrer'> {playlistName}</a>...</h3>
                 <div className='tracklist'>
                   <div className='tracklist-header'>
                     <p>From these tracks:</p>
