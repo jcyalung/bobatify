@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import scrapify
-
+import json
 app = FastAPI()
 user = ''
 user_id = ''
@@ -37,16 +37,13 @@ def user_playlists():
 
 @app.get("/playlist-tracks/{playlist_id}")
 def playlist_tracks(playlist_id):
-    tracks_json = scrapify.get_playlist_tracks(playlist_id)
-    tracks = []
-    for track in tracks_json['items']:
-        tracks.append({'name':track['track']['name'], 'artist(s)':[artist['name'] for artist in track['track']['artists']]})
+    tracks = scrapify.get_playlist_tracks(playlist_id)
     return {'tracks':tracks}
 
-@app.get("/artist-averages/{playlist_id}")
-def artist_averages(playlist_id):
-    averages = scrapify.get_artist_averages(playlist_id)
-    return
+@app.get("/artists/{playlist_id}")
+def artists(playlist_id):
+    artists = scrapify.get_artists(playlist_id)
+    return artists
     
 
 if __name__ == "__main__":

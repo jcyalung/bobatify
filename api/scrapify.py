@@ -14,25 +14,29 @@ set_vars()
 scope = "user-library-read " 
 scope += "playlist-read-private "
 
+# get current user
 def get_current_user():
-    # get current user
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     user = sp.current_user()
     return user
 
+# get user playlists
 def get_user_playlists():
-    # get user playlists
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     playlists = sp.current_user_playlists()
     return playlists
 
+# get playlist tracks
 def get_playlist_tracks(playlist_id):
-    # get playlist tracks
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
     tracks = sp.playlist_tracks(playlist_id)
-    return tracks
+    list_tracks = []
+    for track in tracks['items']:
+        list_tracks.append({'name':track['track']['name'], 'artist(s)':[artist['name'] for artist in track['track']['artists']]})
+    return list_tracks
 
-def get_artist_averages(playlist_id):
+# get artists in playlist
+def get_artists(playlist_id):
     tracks = get_playlist_tracks(playlist_id)
     artists = {}
     for track in tracks['items']:
@@ -41,7 +45,4 @@ def get_artist_averages(playlist_id):
                 artists[artist['name']] += 1
             else:
                 artists[artist['name']] = 1
-    for key, value in artists.items():
-        percentage = (value / len(tracks['items'])) * 100
-        artists[key] = f'{percentage:.2f}%'
-    return {'artists':artists}
+    return {'artists':list(artists.keys())}

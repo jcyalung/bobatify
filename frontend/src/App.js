@@ -13,7 +13,6 @@ function App() {
   const [playlists, setPlaylists] = useState([]);
   const [account, setAccount] = useState({});
   const BASE_URL = 'http://localhost:8000/';
-  const [playlistID, setPlaylistID] = useState('');
 
   const getUser = async () => {
     const response = await fetch(BASE_URL + 'current-user', {redirect: 'follow'});
@@ -27,10 +26,6 @@ function App() {
     const response = await fetch(BASE_URL + 'playlists');
     const data = await response.json();
     setPlaylists(data["playlists"]);
-  }
-  
-  const bobaRecommendation = async (playlist) => { 
-    console.log(playlist.name);
   }
 
   const getPlaylistTracks = async (id) => {
@@ -86,7 +81,7 @@ function App() {
         { playlists?.length > 0 ? 
           (<div className="playlist-container">
               {playlists.map((movie) => (
-                        <Playlist playlist={movie} onClick={async (playlist) => bobaRecommendation(playlist)}/>
+                        <Playlist playlist={movie} onClick={async (playlist) => getPlaylistTracks(playlist)}/>
                     ))}
           </div>)
           : <div></div>
