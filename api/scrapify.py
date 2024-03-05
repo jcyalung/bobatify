@@ -14,7 +14,6 @@ set_vars()
 scope = "user-library-read " 
 scope += "playlist-read-private "
 
-
 def get_current_user():
     # get current user
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))

@@ -2,11 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import scrapify
-import random
+
 app = FastAPI()
 user = ''
 user_id = ''
 display_name = ''
+
 # This middleware is required in order to accept requests from other domains such as a React app running on 'localhost:3000'
 origins = ["*"]
 app.add_middleware(
@@ -24,8 +25,6 @@ def root():
 @app.get("/current-user")
 def current_user():
     user = scrapify.get_current_user()
-    user_id = user['id']
-    display_name = user['display_name']
     return user
 
 @app.get("/playlists")

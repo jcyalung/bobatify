@@ -49,7 +49,7 @@ function App() {
                 <img src={playlist.image} alt='playlist'/>
             </div>
             <div>
-              <button onClick={() => getPlaylistTracks(playlist.id)}><img src={Pearls}></img></button>
+              <button onClick={() => getPlaylistTracks(playlist.id)}><img src={Pearls} alt='get recommendation!'></img></button>
             </div>
         </div>)
   }
